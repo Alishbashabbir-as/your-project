@@ -1,0 +1,52 @@
+
+name: Advanced CI Pipeline
+
+on:
+  push:
+    branches: [main, dev]
+
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+env:
+  APP_NAME: devops-learning
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Display project
+        run: echo "Building $APP_NAME"
+
+      - name: Check runner
+        run: |
+          pwd
+          whoami
+          date
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        version: [1, 2, 3]
+
+    steps:
+      - name: Run test
+        run: echo "Testing version ${{ matrix.version }}"
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deployment
+        run: echo "Deploying application!"
