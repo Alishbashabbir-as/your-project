@@ -1,0 +1,24 @@
+name: My First GitHub Actions Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Welcome message
+        run: echo "Hello! My first CI/CD workflow is running."
+
+      - name: Check system
+        run: |
+          echo "Checking the runner..."
+          pwd
+          whoami
+          date
+
+      - name: Success message
+        run: echo "Workflow completed successfully!"
